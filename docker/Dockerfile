@@ -67,5 +67,16 @@ RUN rm -rf /opencv /opencv_contrib && \
     apt-get autoremove -y && \
     apt-get clean
 
+RUN ln -s /opt/onnxruntime/lib /opt/onnxruntime/lib64 && \
+    apt-get update && apt-get install -y libgflags-dev && \
+    mkdir -p /opt/onnxruntime/include/onnxruntime && \
+    ln -s /opt/onnxruntime/include/*.h /opt/onnxruntime/include/onnxruntime/
+
+RUN git clone https://github.com/ismukhin/deep-learning-systems-course && \
+    cd deep-learning-systems-course/ && mkdir build && cd build && \
+    cmake -D onnxruntime_DIR=/opt/onnxruntime/lib/cmake/onnxruntime .. && \
+    make -j$(nproc)
+
+
 ENV PATH=/usr/local/cuda/bin:$PATH
 CMD ["/bin/bash"]
