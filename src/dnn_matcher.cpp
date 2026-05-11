@@ -152,7 +152,7 @@ void LightGlue::match(const std::vector<cv::detail::ImageFeatures> &features, st
                     pts2.push_back(features[j].keypoints[m.trainIdx].pt);
                 }
                 if (pts1.size() >= 4) {
-                    info.H = cv::findHomography(pts1, pts2, cv::RANSAC, 3.0, info.inliers_mask);
+                    info.H = cv::findHomography(pts1, pts2, cv::LMEDS, 3.0, info.inliers_mask);
                     int inliers = std::count(info.inliers_mask.begin(), info.inliers_mask.end(), 1);
                     info.num_inliers = inliers;
                     info.confidence = info.num_inliers / (8 + 0.3 * info.matches.size());
