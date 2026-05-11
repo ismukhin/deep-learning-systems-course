@@ -183,5 +183,15 @@ int main(int argc, char* argv[]) {
 
     imwrite(result_name, pano);
     std::cout << "stitching completed successfully\n" << result_name << " saved!" << std::endl;
+
+    cv::Mat img = cv::imread(cv::samples::findFile("../result_ground.jpg"));
+    if (img == pano) {
+        std::cout << "Test succeed" << std::endl;
+        return EXIT_SUCCESS;
+    } else {
+        std::cout << "Images not equal" << std::endl;
+        return EXIT_FAILURE;
+    }
+
     return EXIT_SUCCESS;
 }

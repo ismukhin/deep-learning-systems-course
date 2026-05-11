@@ -1,4 +1,4 @@
-FROM nvidia/cuda:13.2.0-runtime-ubuntu22.04
+FROM nvidia/cuda:13.2.1-cudnn-runtime-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -72,11 +72,16 @@ RUN ln -s /opt/onnxruntime/lib /opt/onnxruntime/lib64 && \
     mkdir -p /opt/onnxruntime/include/onnxruntime && \
     ln -s /opt/onnxruntime/include/*.h /opt/onnxruntime/include/onnxruntime/
 
+WORKDIR /
+
 RUN git clone https://github.com/ismukhin/deep-learning-systems-course && \
     cd deep-learning-systems-course/ && mkdir build && cd build && \
     cmake -D onnxruntime_DIR=/opt/onnxruntime/lib/cmake/onnxruntime .. && \
-    make -j$(nproc)
-
+    make -j$(nproc) && \
+    ./stitching_sample --output=result_gym_sup_light.jpg --extractor="superpoint" \
+                                                       --device="gpu" --model_fe="/deep-learning-systems-course/models/superpoint.onnx" \ 
+                                                       --model_mat="/deep-learning-systems-course/models/superpoint_lightglue.onnx" \ 
+                                                       --matcher="lightglue" $(echo /deep-learning-systems-course/test_data/*) --f_thr="0.15" --m_thr="0.999"
 
 ENV PATH=/usr/local/cuda/bin:$PATH
 CMD ["/bin/bash"]
