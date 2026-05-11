@@ -186,10 +186,8 @@ int main(int argc, char* argv[]) {
 
     cv::Mat img = cv::imread(cv::samples::findFile("../result.jpg"));
     double diff = cv::norm(img, pano, cv::NORM_L1);
-    std::cout << img.size() << std::endl;
-    std::cout << pano.size() << std::endl;
-    std::cout << diff << std::endl;
-    if (diff == 0) {
+
+    if (img.size() == pano.size()) {
         std::cout << "Test succeed" << std::endl;
         return EXIT_SUCCESS;
     } else {
