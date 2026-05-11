@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcanberra-gtk3-module \
     && rm -rf /var/lib/apt/lists/*
 
-ARG OPENCV_VERSION=4.10.0
+ARG OPENCV_VERSION=4.13.0
 RUN git clone --branch ${OPENCV_VERSION} --depth 1 https://github.com/opencv/opencv.git /opencv && \
     git clone --branch ${OPENCV_VERSION} --depth 1 https://github.com/opencv/opencv_contrib.git /opencv_contrib
 
