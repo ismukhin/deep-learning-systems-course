@@ -188,6 +188,7 @@ int main(int argc, char* argv[]) {
     double diff = cv::norm(img, pano, cv::NORM_L1);
     std::cout << img.size() << std::endl;
     std::cout << pano.size() << std::endl;
+    std::cout << diff << std::endl;
     if (diff == 0) {
         std::cout << "Test succeed" << std::endl;
         return EXIT_SUCCESS;
