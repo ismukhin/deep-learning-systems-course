@@ -114,7 +114,7 @@ void LightGlue::match(const std::vector<cv::detail::ImageFeatures> &features, st
         for (int j = i + 1; j < features.size(); ++j) {
             auto [kpI_flat, kpJ_flat, s_kpI, s_kpJ,
                   descI_flat, descJ_flat, s_descI, s_descJ] = preprocess_input(features[i], features[j]);
-
+            cv::theRNG().state = 42;
             Ort::Value inputs[] = {
                 Ort::Value::CreateTensor<float>(memory_info, kpI_flat.data(), kpI_flat.size(), s_kpI.data(), s_kpI.size()),
                 Ort::Value::CreateTensor<float>(memory_info, kpJ_flat.data(), kpJ_flat.size(), s_kpJ.data(), s_kpJ.size()),
