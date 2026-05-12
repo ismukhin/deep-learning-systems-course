@@ -185,9 +185,20 @@ int main(int argc, char* argv[]) {
     std::cout << "stitching completed successfully\n" << result_name << " saved!" << std::endl;
 
     cv::Mat img = cv::imread(cv::samples::findFile("../result.jpg"));
-    double diff = cv::norm(img, pano, cv::NORM_L1);
 
     if (img.size() == pano.size()) {
+        cv::Mat gray1, gray2;
+        cv::cvtColor(img, gray1, cv::COLOR_BGR2GRAY);
+        cv::cvtColor(pano, gray2, cv::COLOR_BGR2GRAY);
+        cv::Mat diff;
+        cv::absdiff(gray1, gray2, diff);
+
+        cv::Mat thresholded;
+        cv::threshold(diff, thresholded, 30, 255, cv::THRESH_BINARY);
+
+        cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+        cv::morphologyEx(thresholded, thresholded, cv::MORPH_CLOSE, kernel)
+        cv::imwrite("difference.jpg", diff);
         std::cout << "Test succeed" << std::endl;
         return EXIT_SUCCESS;
     } else {
